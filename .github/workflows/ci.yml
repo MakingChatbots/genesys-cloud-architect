@@ -16,3 +16,5 @@ jobs:
       - run: npm ci
       - run: npm run lint
       - run: npm run build
+      - name: Smoke test MCP server
+        run: npx @modelcontextprotocol/inspector --cli node servers/genesys-cloud-architect-mcp.js --method tools/list | grep -q '"tools"'
