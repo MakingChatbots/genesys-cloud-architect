@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "genesys-cloud-architect-mcp": {
+      "command": "node",
+      "args": ["${CLAUDE_PLUGIN_ROOT}/servers/genesys-cloud-architect-mcp.js"]
+    }
+  }
+}
+

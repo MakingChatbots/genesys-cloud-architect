@@ -1,0 +1,4 @@
+lockfile: true
+
+allowBuilds:
+  esbuild: true
