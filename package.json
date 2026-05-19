@@ -1,0 +1,16 @@
+{
+  "name": "genesys-cloud-architect",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build": "esbuild src/mcp-server/index.ts --bundle --platform=node --target=node18 --format=cjs --outfile=servers/genesys-cloud-architect-mcp.js"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.12.0"
+  },
+  "devDependencies": {
+    "@types/node": "^25.8.0",
+    "esbuild": "^0.25.0",
+    "typescript": "^5.8.0"
+  }
+}

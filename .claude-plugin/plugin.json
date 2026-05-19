@@ -9,5 +9,6 @@
   "homepage": "https://github.com/MakingChatbots/genesys-cloud-architect",
   "repository": "https://github.com/MakingChatbots/genesys-cloud-architect",
   "license": "MIT",
-  "keywords": ["genesys cloud", "architect", "flows", "ivr", "contact-center", "ccaas"]
+  "keywords": ["genesys cloud", "architect", "flows", "ivr", "contact-center", "ccaas"],
+  "mcpServers": "./.mcp.json"
 }
