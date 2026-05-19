@@ -1,0 +1,3 @@
+pnpm biome check --write --staged --no-errors-on-unmatched
+pnpm build
+git add servers/genesys-cloud-architect-mcp.js
