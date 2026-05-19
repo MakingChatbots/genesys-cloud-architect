@@ -9,7 +9,7 @@ const _envVars = z.object({}).parse(process.env);
 const ctx: ServerContext = {};
 
 const server = new McpServer(
-    { name: "genesys-cloud-architect", version: "1.0.0" },
+    { name: "genesys-cloud-architect", version: process.env.npm_package_version ?? "0.0.0" },
     {
         instructions:
             "Use the hello tool to verify the server connection is working.",
