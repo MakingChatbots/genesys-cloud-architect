@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "build": "esbuild src/mcp-server/index.ts --bundle --platform=node --target=node18 --format=cjs --outfile=servers/genesys-cloud-architect-mcp.js",
+    "build": "esbuild src/mcp-server/index.ts --bundle --platform=node --target=node22 --format=cjs --outfile=servers/genesys-cloud-architect-mcp.js",
     "lint": "biome check",
     "lint:fix": "biome check --write",
     "format": "biome format --write"
