@@ -4,3 +4,4 @@ dist/
 .env*
 skills-lock.json
 .agents/
+.pnpm-store
