@@ -11,5 +11,27 @@
   "license": "MIT",
   "keywords": ["genesys cloud", "architect", "flows", "ivr", "contact-center", "ccaas"],
   "mcpServers": "./.mcp.json",
-  "skills": "./skills/"
+  "skills": "./skills/",
+  "userConfig": {
+    "genesys_region": {
+      "type": "string",
+      "title": "Genesys Cloud Region",
+      "description": "Region of your Genesys Cloud",
+      "required": true
+    },
+    "genesys_client_id": {
+      "type": "string",
+      "title": "Genesys Cloud OAuth Client ID",
+      "description": "OAuth Client ID",
+      "sensitive": true,
+      "required": true
+    },
+    "genesys_client_secret": {
+      "type": "string",
+      "title": "Genesys Cloud OAuth Client Secret",
+      "description": "OAuth Client Secret",
+      "sensitive": true,
+      "required": true
+    }
+  }
 }
