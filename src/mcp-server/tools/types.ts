@@ -1,8 +1,10 @@
 import type { ToolAnnotations } from "@modelcontextprotocol/sdk/types.js";
+import type { ArchitectApi } from "purecloud-platform-client-v2";
 import type { ZodRawShape } from "zod/v3";
 
-// biome-ignore lint/complexity/noBannedTypes: placeholder until real properties are added
-export type ServerContext = {};
+export type ServerContext = {
+    architectApi: ArchitectApi;
+};
 
 export type ToolConfig<T extends ZodRawShape = ZodRawShape> = {
     config: {
