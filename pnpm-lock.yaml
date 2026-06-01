@@ -11,6 +11,9 @@ importers:
       '@modelcontextprotocol/sdk':
         specifier: ^1.12.0
         version: 1.29.0(zod@4.4.3)
+      purecloud-flow-scripting-api-sdk-javascript:
+        specifier: ^0.66.1
+        version: 0.66.1
       purecloud-platform-client-v2:
         specifier: ^252.1.0
         version: 252.1.0
@@ -658,6 +661,10 @@ packages:
     resolution: {integrity: sha512-cJ+oHTW1VAEa8cJslgmUZrc+sjRKgAKl3Zyse6+PV38hZe/V6Z14TbCuXcan9F9ghlz4QrFr2c92TNF82UkYHA==}
     engines: {node: '>=10'}
 
+  purecloud-flow-scripting-api-sdk-javascript@0.66.1:
+    resolution: {integrity: sha512-aWSE4+2Guh7FNXRiGNtmTa74llyFuG8c9UI5KqWV2rwQ4zNurX506F3v5okrOMmPkqA6y5yHL8mOIOZwGZ6ELg==}
+    engines: {node: '>=20.0.0'}
+
   purecloud-platform-client-v2@252.1.0:
     resolution: {integrity: sha512-TD1u4H/HInP230a9Gstw4T52HZo3CKo3cot4qMHXj9yo7qVla1pM4UNPn70Rm7XsW6aNHqDd48LSEetHY3h88g==}
 
@@ -789,6 +796,18 @@ packages:
 
   wrappy@1.0.2:
     resolution: {integrity: sha512-l4Sp/DRseor9wL6EvV2+TuQn63dMkPjZ/sp9XkghTEbV9KlPS1xUsZ3u7/IQO4wxtcFB4bgpQPRcR3QCvezPcQ==}
+
+  ws@8.20.1:
+    resolution: {integrity: sha512-It4dO0K5v//JtTXuPkfEOaI3uUN87iYPnqo/ZzqCoG3g8uhA66QUMs/SrM0YK7/NAu+r4LMh/9dq2A7k+rHs+w==}
+    engines: {node: '>=10.0.0'}
+    peerDependencies:
+      bufferutil: ^4.0.1
+      utf-8-validate: '>=5.0.2'
+    peerDependenciesMeta:
+      bufferutil:
+        optional: true
+      utf-8-validate:
+        optional: true
 
   zod-to-json-schema@3.25.2:
     resolution: {integrity: sha512-O/PgfnpT1xKSDeQYSCfRI5Gy3hPf91mKVDuYLUHZJMiDFptvP41MSnWofm8dnCm0256ZNfZIM7DSzuSMAFnjHA==}
@@ -1352,6 +1371,13 @@ snapshots:
 
   proxy-from-env@2.1.0: {}
 
+  purecloud-flow-scripting-api-sdk-javascript@0.66.1:
+    dependencies:
+      ws: 8.20.1
+    transitivePeerDependencies:
+      - bufferutil
+      - utf-8-validate
+
   purecloud-platform-client-v2@252.1.0:
     dependencies:
       axios: 1.16.1
@@ -1515,6 +1541,8 @@ snapshots:
       winston-transport: 4.9.0
 
   wrappy@1.0.2: {}
+
+  ws@8.20.1: {}
 
   zod-to-json-schema@3.25.2(zod@4.4.3):
     dependencies:
