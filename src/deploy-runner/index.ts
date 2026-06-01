@@ -212,6 +212,44 @@ function startSession(
     });
 }
 
+// ── Region mapping ────────────────────────────────────────────────────
+// The Platform Client SDK uses API domains (e.g. "usw2.pure.cloud") but
+// the Architect Scripting SDK expects enum strings (e.g. "prod_us_west_2").
+
+const API_DOMAIN_TO_SDK_REGION: Record<string, string> = {
+    "mypurecloud.com": "prod_us_east_1",
+    "use2.us-gov-pure.cloud": "prod_us_east_2",
+    "usw2.pure.cloud": "prod_us_west_2",
+    "cac1.pure.cloud": "prod_ca_central_1",
+    "mypurecloud.ie": "prod_eu_west_1",
+    "euw2.pure.cloud": "prod_eu_west_2",
+    "euc1.pure.cloud": "prod_eu_central_1",
+    "euc2.pure.cloud": "prod_eu_central_2",
+    "apse2.pure.cloud": "prod_ap_southeast_2",
+    "apne1.pure.cloud": "prod_ap_northeast_1",
+    "apne2.pure.cloud": "prod_ap_northeast_2",
+    "apne3.pure.cloud": "prod_ap_northeast_3",
+    "aps1.pure.cloud": "prod_ap_south_1",
+    "apse1.pure.cloud": "prod_ap_southeast_1",
+    "mec1.pure.cloud": "prod_me_central_1",
+    "sae1.pure.cloud": "prod_sa_east_1",
+    "afs1.pure.cloud": "prod_af_south_1",
+};
+
+function toArchitectSdkRegion(
+    scripting: ArchitectScripting,
+    apiDomain: string,
+): string | undefined {
+    const mapped = API_DOMAIN_TO_SDK_REGION[apiDomain];
+    if (mapped) return mapped;
+    const locations = scripting.enums.archEnums.LOCATIONS as Record<
+        string,
+        string
+    >;
+    if (Object.values(locations).includes(apiDomain)) return apiDomain;
+    return undefined;
+}
+
 // ── Main ───────────────────────────────────────────────────────────────
 
 async function main(): Promise<void> {
@@ -260,10 +298,19 @@ async function main(): Promise<void> {
 
     installLogging(scripting);
 
-    emit("log", "info", `Starting SDK session (region: ${region})...`);
+    const sdkRegion = toArchitectSdkRegion(scripting, region);
+    if (!sdkRegion) {
+        emit("result", {
+            success: false,
+            error: `Unknown region "${region}". Known API domains: ${Object.keys(API_DOMAIN_TO_SDK_REGION).join(", ")}`,
+        });
+        process.exit(1);
+    }
+
+    emit("log", "info", `Starting SDK session (region: ${sdkRegion})...`);
 
     const session = await startSession(scripting, {
-        region,
+        region: sdkRegion,
         clientId,
         clientSecret,
     });

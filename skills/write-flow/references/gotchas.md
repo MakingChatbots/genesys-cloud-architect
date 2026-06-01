@@ -65,6 +65,22 @@ In digital bot flows, prefer `DigitalMenu` with Yes/No choices over `AskForBoole
 
 `setExpression("true")` fails on `ArchValueBoolean` with "cannot assign the expression text 'true'". Use `setLiteralTrue()` / `setLiteralFalse()` instead.
 
+## Action containers: pass the object, not outputSequence
+
+For chat, message, and email flows, pass the state or task object directly to action factory methods — not `state.outputSequence`. The `outputSequence` property exists at runtime but is rejected as an invalid action container:
+- Correct: `archFactoryActions.addActionSendResponse(initialState)`
+- Wrong: `archFactoryActions.addActionSendResponse(initialState.outputSequence)`
+
+## SendResponse API
+
+The type definitions declare `setResponseBodyByLiteralString` but it does not exist at runtime. Use `messageBody.setExpression()` instead:
+- Correct: `reply.messageBody.setExpression('"Hello!"')`
+- Wrong: `reply.setResponseBodyByLiteralString("Hello!")`
+
+## JumpToTask not available in inbound message flows
+
+`addActionJumpToTask` (`TransferTaskAction`) cannot be used in `inboundshortmessage` flows. Add actions directly to the initial state instead of routing through reusable tasks.
+
 ## Flow naming on re-runs
 
 `createFlow*Async` deletes an existing flow with the same name. This requires `architect:flow:delete` permission. If you don't have it, use a new name or use `checkoutAndLoadFlowByFlowNameAsync` to update existing flows.

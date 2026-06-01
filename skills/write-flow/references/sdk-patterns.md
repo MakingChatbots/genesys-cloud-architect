@@ -58,10 +58,9 @@ Every flow has a `startUpObject` where execution begins:
 
 ```typescript
 const initialState = flow.startUpObject;
-const sequence = initialState.outputSequence;
 ```
 
-Actions are added to sequences. Every state, menu choice, and decision output has an `outputSequence`.
+Actions are added by passing the state or task object directly to action factory methods. For voice flows (inbound call), you can also use `outputSequence` on menu choices. See gotchas for details on which container types are accepted.
 
 ## Variables
 

@@ -46,9 +46,10 @@ jump.targetMenu = menuObject;
 
 ### SendResponse
 ```typescript
-const response = actionFactory.addActionSendResponse(sequence);
-response.setResponseBodyByLiteralString("Hello! How can I help?");
+const response = actionFactory.addActionSendResponse(stateOrTask);
+response.messageBody.setExpression('"Hello! How can I help?"');
 ```
+Note: pass the state or task object directly — not its `outputSequence`. The expression value must be a quoted string inside the expression (double quotes inside single quotes).
 
 ### SendAutoReply (Email)
 ```typescript

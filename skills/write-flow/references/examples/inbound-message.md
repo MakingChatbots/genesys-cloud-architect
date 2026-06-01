@@ -14,16 +14,15 @@ export async function buildFlow(scripting: ArchitectScripting): Promise<void> {
     );
 
     const initialState = flow.startUpObject;
-    const sequence = initialState.outputSequence;
 
     // Send auto-reply message
-    const reply = archFactoryActions.addActionSendResponse(sequence);
-    reply.setResponseBodyByLiteralString(
-        "Thank you for your message. An agent will respond to you shortly.",
+    const reply = archFactoryActions.addActionSendResponse(initialState);
+    reply.messageBody.setExpression(
+        '"Thank you for your message. An agent will respond to you shortly."',
     );
 
     // Transfer to messaging queue
-    const transfer = archFactoryActions.addActionTransferToAcd(sequence);
+    const transfer = archFactoryActions.addActionTransferToAcd(initialState);
     await transfer.setQueueByName("SMS Support Queue");
 
     await flow.checkInAsync();

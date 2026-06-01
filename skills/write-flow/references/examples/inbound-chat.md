@@ -14,16 +14,15 @@ export async function buildFlow(scripting: ArchitectScripting): Promise<void> {
     );
 
     const initialState = flow.startUpObject;
-    const sequence = initialState.outputSequence;
 
     // Send initial greeting message
-    const greeting = archFactoryActions.addActionSendResponse(sequence);
-    greeting.setResponseBodyByLiteralString(
-        "Hello! Thank you for contacting us. Please wait while we connect you to an agent.",
+    const greeting = archFactoryActions.addActionSendResponse(initialState);
+    greeting.messageBody.setExpression(
+        '"Hello! Thank you for contacting us. Please wait while we connect you to an agent."',
     );
 
     // Transfer to chat queue
-    const transfer = archFactoryActions.addActionTransferToAcd(sequence);
+    const transfer = archFactoryActions.addActionTransferToAcd(initialState);
     await transfer.setQueueByName("Chat Support Queue");
 
     await flow.checkInAsync();

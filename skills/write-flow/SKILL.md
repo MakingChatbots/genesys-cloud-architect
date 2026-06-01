@@ -84,11 +84,13 @@ export async function buildFlow(scripting: ArchitectScripting): Promise<void> {
 
 ### 4. Typecheck
 
-Run the TypeScript compiler to validate the flow code:
+Run the TypeScript compiler against the flow file directly (the user's project may not have a `tsconfig.json`):
 
 ```bash
-npx tsc --noEmit
+npx tsc --noEmit --strict --moduleResolution bundler --module ES2022 --target ES2022 --allowImportingTsExtensions --skipLibCheck path/to/flow.ts
 ```
+
+`--skipLibCheck` is required because the SDK's own `types.d.ts` has internal errors (duplicate identifiers, missing type references). Without it, `tsc` fails on the SDK — not on your flow code.
 
 Fix any errors before deploying.
 
