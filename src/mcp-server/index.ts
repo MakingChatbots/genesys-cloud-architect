@@ -2,8 +2,8 @@ import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import platformClient from "purecloud-platform-client-v2";
 import { z } from "zod/v3";
+import { deployFlow } from "./tools/deploy-flow.ts";
 import { flowDependencies } from "./tools/flow-dependencies.ts";
-import type { ServerContext } from "./tools/types.ts";
 
 const envVars = z
     .object({
@@ -13,20 +13,29 @@ const envVars = z
     })
     .parse(process.env);
 
-const ctx: ServerContext = {
-    architectApi: new platformClient.ArchitectApi(),
-};
-
 const server = new McpServer({
     name: "genesys-cloud-architect",
     version: process.env.npm_package_version ?? "0.0.0",
 });
 
-const flowDependenciesTool = flowDependencies(ctx);
+const flowDependenciesTool = flowDependencies({
+    architectApi: new platformClient.ArchitectApi(),
+});
 server.registerTool(
     "flow_dependencies",
     flowDependenciesTool.config,
     flowDependenciesTool.handler,
+);
+
+const deployFlowTool = deployFlow({
+    clientId: envVars.CLAUDE_PLUGIN_OPTION_genesys_client_id,
+    clientSecret: envVars.CLAUDE_PLUGIN_OPTION_genesys_client_secret,
+    region: envVars.CLAUDE_PLUGIN_OPTION_genesys_region,
+});
+server.registerTool(
+    "deploy_flow",
+    deployFlowTool.config,
+    deployFlowTool.handler,
 );
 
 void (async () => {
