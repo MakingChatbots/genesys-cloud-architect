@@ -1,0 +1,16 @@
+{
+  "name": "makingchatbots-genesys-cloud-architect",
+  "owner": {
+    "name": "Lucas Woodward",
+    "url": "https://makingchatbots.com/"
+  },
+  "description": "Plugins for the full life-cycle of creating Genesys Cloud Architect flows with Claude Code",
+  "plugins": [
+    {
+      "name": "genesys-cloud-architect",
+      "source": "./",
+      "description": "Create, test, and debug Genesys Cloud Architect flows",
+      "version": "1.0.0"
+    }
+  ]
+}
