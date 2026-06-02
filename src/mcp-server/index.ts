@@ -10,6 +10,11 @@ const envResults = z
         CLAUDE_PLUGIN_OPTION_genesys_region: z.string().min(1),
         CLAUDE_PLUGIN_OPTION_genesys_client_id: z.string().min(1),
         CLAUDE_PLUGIN_OPTION_genesys_client_secret: z.string().min(1),
+        // Used for MCP Server smoke test in CI workflow
+        PREVENT_LOGIN: z
+            .enum(["TRUE", "FALSE"])
+            .default("FALSE")
+            .transform((v) => v === "TRUE"),
     })
     .safeParse(process.env);
 
@@ -47,12 +52,18 @@ server.registerTool(
 );
 
 void (async () => {
-    const client = platformClient.ApiClient.instance;
-    client.setEnvironment(envVars.CLAUDE_PLUGIN_OPTION_genesys_region);
-    await client.loginClientCredentialsGrant(
-        envVars.CLAUDE_PLUGIN_OPTION_genesys_client_id,
-        envVars.CLAUDE_PLUGIN_OPTION_genesys_client_secret,
-    );
+    if (envVars.PREVENT_LOGIN) {
+        console.warn(
+            "Login for Platform API skipped. Calling tools will result in an auth failure.",
+        );
+    } else {
+        const client = platformClient.ApiClient.instance;
+        client.setEnvironment(envVars.CLAUDE_PLUGIN_OPTION_genesys_region);
+        await client.loginClientCredentialsGrant(
+            envVars.CLAUDE_PLUGIN_OPTION_genesys_client_id,
+            envVars.CLAUDE_PLUGIN_OPTION_genesys_client_secret,
+        );
+    }
 
     const transport = new StdioServerTransport();
     await server.connect(transport);

@@ -21,4 +21,9 @@ jobs:
       - run: pnpm run lint
       - run: pnpm run build
       - name: Smoke test MCP server
+        env:
+          PREVENT_LOGIN: "TRUE"
+          CLAUDE_PLUGIN_OPTION_genesys_region: "DUMMY_VALUE"
+          CLAUDE_PLUGIN_OPTION_genesys_client_id: "DUMMY_VALUE"
+          CLAUDE_PLUGIN_OPTION_genesys_client_secret: "DUMMY_VALUE"
         run: pnpm dlx @modelcontextprotocol/inspector --cli node servers/genesys-cloud-architect-mcp.js --method tools/list | grep -q '"tools"'
