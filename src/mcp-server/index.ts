@@ -5,13 +5,21 @@ import { z } from "zod/v3";
 import { deployFlow } from "./tools/deploy-flow.ts";
 import { flowDependencies } from "./tools/flow-dependencies.ts";
 
-const envVars = z
+const envResults = z
     .object({
         CLAUDE_PLUGIN_OPTION_genesys_region: z.string().min(1),
         CLAUDE_PLUGIN_OPTION_genesys_client_id: z.string().min(1),
         CLAUDE_PLUGIN_OPTION_genesys_client_secret: z.string().min(1),
     })
-    .parse(process.env);
+    .safeParse(process.env);
+
+if (!envResults.success) {
+    const missing = envResults.error.issues.map((i) => i.path[0]).join("\n ");
+    console.error(`Missing required environment variables:\n${missing}`);
+    process.exit(1);
+}
+
+const envVars = envResults.data;
 
 const server = new McpServer({
     name: "genesys-cloud-architect",
