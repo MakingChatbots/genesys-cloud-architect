@@ -1,10 +1,5 @@
 import type { ToolAnnotations } from "@modelcontextprotocol/sdk/types.js";
-import type { ArchitectApi } from "purecloud-platform-client-v2";
 import type { ZodRawShape } from "zod/v3";
-
-export type ServerContext = {
-    architectApi: ArchitectApi;
-};
 
 export type ToolConfig<T extends ZodRawShape = ZodRawShape> = {
     config: {
@@ -18,6 +13,6 @@ export type ToolConfig<T extends ZodRawShape = ZodRawShape> = {
     }>;
 };
 
-export type ToolFactory<T extends ZodRawShape = ZodRawShape> = (
-    ctx: ServerContext,
+export type ToolFactory<U, T extends ZodRawShape = ZodRawShape> = (
+    ctx: U,
 ) => ToolConfig<T>;

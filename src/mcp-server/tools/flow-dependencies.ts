@@ -1,4 +1,5 @@
 import type platformClient from "purecloud-platform-client-v2";
+import type { ArchitectApi } from "purecloud-platform-client-v2";
 import { z } from "zod/v3";
 import type { ToolFactory } from "./types.ts";
 
@@ -47,7 +48,13 @@ function buildResult(
     };
 }
 
-export const flowDependencies: ToolFactory = ({ architectApi }) => ({
+export interface ToolConfig {
+    architectApi: ArchitectApi;
+}
+
+export const flowDependencies: ToolFactory<ToolConfig> = ({
+    architectApi,
+}: ToolConfig) => ({
     config: {
         description:
             "Retrieves all dependencies consumed by a Genesys Cloud Architect flow. " +
