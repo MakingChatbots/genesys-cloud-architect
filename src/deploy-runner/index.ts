@@ -110,9 +110,12 @@ const origGet = https.get;
 const origConsoleLog = console.log;
 const tracePrefix = "TRACE:";
 
+const SUPPRESSED_TRACES = [/Unknown feature being requested/];
+
 function interceptTrace(text: string): boolean {
     if (text.startsWith(tracePrefix)) {
         const msg = text.slice(tracePrefix.length).trim();
+        if (SUPPRESSED_TRACES.some((p) => p.test(msg))) return true;
         traces.push(msg);
         emit("log", "info", msg);
         return true;

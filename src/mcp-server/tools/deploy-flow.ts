@@ -28,7 +28,8 @@ export const deployFlow: ToolFactory<DeployFlowConfig> = (toolConfig) => ({
         description:
             "Deploys a Genesys Cloud Architect flow from a TypeScript file. " +
             "The file must export an async buildFlow(scripting) function that " +
-            "creates and saves the flow using the Architect Scripting SDK.",
+            "creates and saves the flow using the Architect Scripting SDK. " +
+            'The project\'s package.json must have "type": "module" for the ES module import to work.',
         annotations: {
             title: "Deploy Flow",
             readOnlyHint: false,
@@ -140,8 +141,17 @@ export const deployFlow: ToolFactory<DeployFlowConfig> = (toolConfig) => ({
                     }
                 }
 
-                if (stderrBuf.trim()) {
-                    logs.push(`[stderr] ${stderrBuf.trim()}`);
+                const filteredStderr = stderrBuf
+                    .split("\n")
+                    .filter(
+                        (l) =>
+                            !l.includes("url.parse()") &&
+                            !l.includes("[DEP0169]"),
+                    )
+                    .join("\n")
+                    .trim();
+                if (filteredStderr) {
+                    logs.push(`[stderr] ${filteredStderr}`);
                 }
 
                 const logOutput = logs.length

@@ -31,6 +31,10 @@ The user's project must have the Architect Scripting SDK installed for type chec
 npm install --save-dev purecloud-flow-scripting-api-sdk-javascript
 ```
 
+## Deploy only (existing flow file)
+
+If the user already has a flow file and just wants to deploy it, skip straight to **step 5** — call the `deploy_flow` MCP tool with the file path. Only fall back to steps 1–4 if deployment fails or the user asks for help writing/fixing the flow.
+
 ## Workflow
 
 ### 1. Understand the requirement
@@ -38,8 +42,9 @@ npm install --save-dev purecloud-flow-scripting-api-sdk-javascript
 Ask the user:
 - **Flow type**: inbound call, inbound chat, inbound email, inbound message (SMS), or workflow
 - **What it should do**: routing, menus, greetings, queue transfers, data lookups, etc.
-- **Queue names**: which Genesys Cloud queues to route to (must exist in the org)
 - **Flow name**: what to name the flow in Architect
+
+Only ask about queue names if the user's description involves queue transfers. Not every flow routes to a queue.
 
 ### 2. Read the relevant references
 
