@@ -7,9 +7,10 @@ import { flowDependencies } from "./tools/flow-dependencies.ts";
 
 const envResults = z
     .object({
-        CLAUDE_PLUGIN_OPTION_genesys_region: z.string().min(1),
-        CLAUDE_PLUGIN_OPTION_genesys_client_id: z.string().min(1),
-        CLAUDE_PLUGIN_OPTION_genesys_client_secret: z.string().min(1),
+        GENESYS_REGION: z.string().min(1),
+        GENESYS_CLIENT_ID: z.string().min(1),
+        GENESYS_CLIENT_SECRET: z.string().min(1),
+        DEPLOY_SCRIPT_PATH: z.string().min(1),
         // Used for MCP Server smoke test in CI workflow
         PREVENT_LOGIN: z
             .enum(["TRUE", "FALSE"])
@@ -20,7 +21,7 @@ const envResults = z
 
 if (!envResults.success) {
     const missing = envResults.error.issues.map((i) => i.path[0]).join("\n ");
-    console.error(`Missing required environment variables:\n${missing}`);
+    console.error(`Missing required environment variables:\n ${missing}`);
     process.exit(1);
 }
 
@@ -41,9 +42,10 @@ server.registerTool(
 );
 
 const deployFlowTool = deployFlow({
-    clientId: envVars.CLAUDE_PLUGIN_OPTION_genesys_client_id,
-    clientSecret: envVars.CLAUDE_PLUGIN_OPTION_genesys_client_secret,
-    region: envVars.CLAUDE_PLUGIN_OPTION_genesys_region,
+    region: envVars.GENESYS_REGION,
+    clientId: envVars.GENESYS_CLIENT_ID,
+    clientSecret: envVars.GENESYS_CLIENT_SECRET,
+    deployScriptPath: envVars.DEPLOY_SCRIPT_PATH,
 });
 server.registerTool(
     "deploy_flow",
@@ -58,10 +60,10 @@ void (async () => {
         );
     } else {
         const client = platformClient.ApiClient.instance;
-        client.setEnvironment(envVars.CLAUDE_PLUGIN_OPTION_genesys_region);
+        client.setEnvironment(envVars.GENESYS_REGION);
         await client.loginClientCredentialsGrant(
-            envVars.CLAUDE_PLUGIN_OPTION_genesys_client_id,
-            envVars.CLAUDE_PLUGIN_OPTION_genesys_client_secret,
+            envVars.GENESYS_CLIENT_ID,
+            envVars.GENESYS_CLIENT_SECRET,
         );
     }
 
