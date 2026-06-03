@@ -18,6 +18,7 @@ function emit(
         success: boolean;
         flowId?: string;
         flowName?: string;
+        warnings?: string[];
         error?: string;
     },
 ): void;
@@ -337,7 +338,23 @@ async function main(): Promise<void> {
         const flowName =
             typeof flowResult?.name === "string" ? flowResult.name : undefined;
 
-        emit("result", { success: true, flowId, flowName });
+        let warnings: string[] | undefined;
+        if (typeof flowResult?.validateAsync === "function") {
+            const validation = await flowResult.validateAsync();
+            if (validation.hasErrorsOrWarnings) {
+                warnings = [];
+                for (const issue of validation.issues) {
+                    const label = issue.archObject?.logStr ?? "Unknown";
+                    for (const err of issue.errors ?? [])
+                        warnings.push(`ERROR [${label}]: ${err}`);
+                    for (const warn of issue.warnings ?? [])
+                        warnings.push(`WARN [${label}]: ${warn}`);
+                }
+                for (const w of warnings) emit("log", "warn", w);
+            }
+        }
+
+        emit("result", { success: true, flowId, flowName, warnings });
     } catch (err) {
         const message = err instanceof Error ? err.message : String(err);
         emit("result", { success: false, error: message });

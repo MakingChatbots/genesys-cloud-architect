@@ -11,6 +11,7 @@ interface DeployRunnerLine {
     success?: boolean;
     flowId?: string;
     flowName?: string;
+    warnings?: string[];
     error?: string;
 }
 
@@ -164,6 +165,10 @@ export const deployFlow: ToolFactory<DeployFlowConfig> = (toolConfig) => ({
                         parts.push(`Flow ID: ${resultLine.flowId}`);
                     if (resultLine.flowName)
                         parts.push(`Flow Name: ${resultLine.flowName}`);
+                    if (resultLine.warnings?.length)
+                        parts.push(
+                            `\nValidation warnings:\n${resultLine.warnings.join("\n")}`,
+                        );
 
                     settle({
                         content: [
