@@ -327,9 +327,14 @@ async function main(): Promise<void> {
             return;
         }
 
-        await mod.buildFlow(scripting);
+        const flowResult = await mod.buildFlow(scripting);
 
-        emit("result", { success: true });
+        const flowId =
+            typeof flowResult?.id === "string" ? flowResult.id : undefined;
+        const flowName =
+            typeof flowResult?.name === "string" ? flowResult.name : undefined;
+
+        emit("result", { success: true, flowId, flowName });
     } catch (err) {
         const message = err instanceof Error ? err.message : String(err);
         emit("result", { success: false, error: message });
