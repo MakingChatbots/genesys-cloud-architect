@@ -15,9 +15,9 @@ interface DeployRunnerLine {
 }
 
 const DEPLOY_TIMEOUT_MS = 120_000;
-const DEPLOY_RUNNER_PATH = path.resolve("bin", "deploy-runner.js");
 
 export interface DeployFlowConfig {
+    readonly deployScriptPath: string;
     readonly region: string;
     readonly clientId: string;
     readonly clientSecret: string;
@@ -55,7 +55,11 @@ export const deployFlow: ToolFactory<DeployFlowConfig> = (toolConfig) => ({
             };
         }
 
-        const nodeArgs = [DEPLOY_RUNNER_PATH, "--flow-file", absolutePath];
+        const nodeArgs = [
+            toolConfig.deployScriptPath,
+            "--flow-file",
+            absolutePath,
+        ];
 
         return new Promise((resolve) => {
             const logs: string[] = [];
