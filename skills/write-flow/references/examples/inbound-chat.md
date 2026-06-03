@@ -5,7 +5,7 @@ Chat flow with a greeting message and queue transfer.
 ```typescript
 import type { ArchitectScripting } from "purecloud-flow-scripting-api-sdk-javascript";
 
-export async function buildFlow(scripting: ArchitectScripting): Promise<void> {
+export async function buildFlow(scripting: ArchitectScripting) {
     const { archFactoryFlows, archFactoryActions } = scripting.factories;
 
     const flow = await archFactoryFlows.createFlowInboundChatAsync(
@@ -25,6 +25,6 @@ export async function buildFlow(scripting: ArchitectScripting): Promise<void> {
     const transfer = archFactoryActions.addActionTransferToAcd(initialState);
     await transfer.setQueueByName("Chat Support Queue");
 
-    await flow.checkInAsync();
+    return await flow.checkInAsync();
 }
 ```

@@ -5,7 +5,7 @@ Simple IVR with a welcome message, main menu with 3 choices, and queue transfers
 ```typescript
 import type { ArchitectScripting } from "purecloud-flow-scripting-api-sdk-javascript";
 
-export async function buildFlow(scripting: ArchitectScripting): Promise<void> {
+export async function buildFlow(scripting: ArchitectScripting) {
     const { archFactoryFlows, archFactoryActions, archFactoryMenus } = scripting.factories;
 
     const flow = await archFactoryFlows.createFlowInboundCallAsync(
@@ -40,6 +40,6 @@ export async function buildFlow(scripting: ArchitectScripting): Promise<void> {
     const jumpToMenu = archFactoryActions.addActionJumpToMenu(initialState.outputSequence);
     jumpToMenu.targetMenu = mainMenu;
 
-    await flow.checkInAsync();
+    return await flow.checkInAsync();
 }
 ```

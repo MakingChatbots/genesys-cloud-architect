@@ -5,7 +5,7 @@ Email flow with auto-reply and queue transfer.
 ```typescript
 import type { ArchitectScripting } from "purecloud-flow-scripting-api-sdk-javascript";
 
-export async function buildFlow(scripting: ArchitectScripting): Promise<void> {
+export async function buildFlow(scripting: ArchitectScripting) {
     const { archFactoryFlows, archFactoryActions } = scripting.factories;
 
     const flow = await archFactoryFlows.createFlowInboundEmailAsync(
@@ -28,6 +28,6 @@ export async function buildFlow(scripting: ArchitectScripting): Promise<void> {
     const transfer = archFactoryActions.addActionTransferToAcd(sequence);
     await transfer.setQueueByName("Email Support Queue");
 
-    await flow.checkInAsync();
+    return await flow.checkInAsync();
 }
 ```

@@ -5,7 +5,7 @@ Automated workflow that creates a callback request.
 ```typescript
 import type { ArchitectScripting } from "purecloud-flow-scripting-api-sdk-javascript";
 
-export async function buildFlow(scripting: ArchitectScripting): Promise<void> {
+export async function buildFlow(scripting: ArchitectScripting) {
     const { archFactoryFlows, archFactoryActions } = scripting.factories;
 
     const flow = await archFactoryFlows.createFlowWorkflowAsync(
@@ -33,6 +33,6 @@ export async function buildFlow(scripting: ArchitectScripting): Promise<void> {
     // End workflow
     archFactoryActions.addActionEndWorkflow(sequence);
 
-    await flow.checkInAsync();
+    return await flow.checkInAsync();
 }
 ```

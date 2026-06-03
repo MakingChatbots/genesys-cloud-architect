@@ -20,7 +20,7 @@ Every flow file must export this function:
 ```typescript
 import type { ArchitectScripting } from "purecloud-flow-scripting-api-sdk-javascript";
 
-export async function buildFlow(scripting: ArchitectScripting): Promise<void> {
+export async function buildFlow(scripting: ArchitectScripting) {
     const { archFactoryFlows, archFactoryActions } = scripting.factories;
 
     const flow = await archFactoryFlows.createFlowInboundCallAsync(
@@ -30,14 +30,14 @@ export async function buildFlow(scripting: ArchitectScripting): Promise<void> {
 
     // Build the flow logic...
 
-    await flow.checkInAsync();
+    return await flow.checkInAsync();
 }
 ```
 
 - The SDK instance is passed as a parameter — never `require()` it
 - Only use `import type` from the SDK package
 - The deploy runner handles authentication and session management
-- Call `flow.checkInAsync()` to save the flow to Genesys Cloud
+- Return `await flow.checkInAsync()` — this saves the flow and returns the flow object, which the deploy runner uses to run `validateAsync()` and report validation warnings/errors
 
 ## Flow Creation Methods
 
