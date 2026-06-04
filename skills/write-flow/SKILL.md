@@ -53,7 +53,8 @@ Before writing any flow code, read these reference files from this skill:
 1. **Always read**: `references/sdk-patterns.md` — core SDK patterns and the `buildFlow` contract
 2. **Always read**: `references/gotchas.md` — SDK quirks that cause silent failures
 3. **Always read**: `references/action-reference.md` — available action types
-4. **Read the matching example** from `references/examples/`:
+4. **Read when the flow uses expressions**: `references/expression-reference.md` — expression language syntax, functions, operators, data types, and common patterns. Read this whenever the flow involves conditional logic, dynamic text, variable manipulation, date/time calculations, or any `setExpression()` / expression property usage.
+5. **Read the matching example** from `references/examples/`:
    - `inbound-call.md` — IVR with menus and queue transfers
    - `inbound-chat.md` — chat greeting and queue transfer
    - `inbound-email.md` — auto-reply and queue transfer
